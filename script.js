@@ -169,22 +169,22 @@ $("#btn-save").addEventListener("click", () => {
   produtos = JSON.parse(localStorage.getItem("produtos")) || [];
 
   // 🔎 Validação: impede salvar se faltar estoque
-  for (const it of data.items) {
+  /*for (const it of data.items) {
     const qty = Number(it.qty) || 0;
     if(qty <= 0) continue;
 
     const produto = produtos.find(p => normalize(p.nome) === normalize(it.name));
 
-    if(!produto){
-      alert(`O item "${it.name}" não está cadastrado no estoque! Cadastre antes de lançar o checklist.`);
-      return; // bloqueia salvar
-    }
+   if(!produto){
+   alert(`O item "${it.name}" não está cadastrado no estoque! Cadastre antes de lançar o checklist.`);
+   return; // bloqueia salvar
+   }
 
     if(produto.quantidade < qty){
       alert(`Estoque insuficiente para "${it.name}".\nDisponível: ${produto.quantidade}, solicitado: ${qty}.`);
       return; // bloqueia salvar
     }
-  }
+  }*/
 
   // ✅ Se chegou até aqui, tudo certo: salva checklist
   const all = loadAll();
