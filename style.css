@@ -1,0 +1,228 @@
+/* ===== Reset & Base ===== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #0b1020; color: #e6ebff; }
+:root{
+  --bg: #200b0b;
+  --panel: #111833;
+  --panel-2: #0e1530;
+  --text: #e6ebff;
+  --muted: #9db2ff;
+  --brand: #5b7cff;
+  --brand-2: #8ea2ff;
+  --line: #223065;
+  --ok: #3bd671;
+  --warn: #ffcc66;
+  --danger: #ff6b6b;
+  --shadow: 0 8px 24px rgba(0,0,0,.45);
+  --radius: 16px;
+}
+
+/* ===== Header ===== */
+.app-header{ display:flex; align-items:center; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background: linear-gradient(180deg, #0b1022, #0a0f1d); position: sticky; top: 0; z-index: 10; }
+.brand-logo{ width: 160px; height: auto; border-radius: 12px; box-shadow: var(--shadow); }
+.header-text h1{ margin:0; font-size: 24px; }
+.header-text p{ margin:4px 0 0; color: var(--muted); }
+
+/* ===== Tabs ===== */
+.tabs{ display:flex; gap:8px; padding:12px 20px; background: var(--panel-2); border-bottom:1px solid var(--line); position: sticky; top: 96px; z-index: 9; }
+.tab-btn{ background: #121a36; color: var(--text); border:1px solid var(--line); padding:10px 14px; border-radius: 12px; cursor: pointer; }
+.tab-btn.active{ background: var(--brand); border-color: transparent; color: #0b1020; font-weight: 600; }
+
+/* ===== Layout ===== */
+.container{ padding: 20px; }
+.panel{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+.panel-header{ display:flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.panel-header h2{ margin: 0; }
+.actions{ display:flex; gap:8px; }
+
+.grid{ display:grid; gap:12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.field{ display:flex; flex-direction: column; gap:6px; }
+.field input, .field select{ background:#0d1430; border:1px solid var(--line); padding:10px 12px; color: var(--text); border-radius:12px; }
+
+.section-title{ margin: 16px 0 8px; color: var(--brand-2); }
+
+/* ===== Items ===== */
+.items{ display:grid; gap:16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.item-group{ background:#0d1430; border:1px solid var(--line); border-radius:14px; padding:12px; }
+.item-group h4{ margin:0 0 10px; color: var(--muted); font-weight:600; }
+.item-row{ display:flex; align-items:center; justify-content: space-between; gap: 12px; padding:8px; border:1px dashed #21306a; border-radius: 12px; }
+.item-row .check{ display:flex; align-items:center; gap:10px; }
+.item-row .item-qty{ width: 90px; background:#0a112d; border:1px solid var(--line); border-radius:10px; padding:8px 10px; color: var(--text); }
+.item-row input[type="checkbox"]{ transform: scale(1.1); }
+
+/* ===== Buttons ===== */
+.btn{ background: var(--brand); border: none; color: #0b1020; padding:10px 14px; border-radius: 12px; cursor: pointer; font-weight:600; box-shadow: var(--shadow); }
+.btn:hover{ filter: brightness(1.05); }
+.btn:active{ transform: translateY(1px); }
+.btn-secondary{ background: #101a38; color: var(--text); border:1px solid var(--line); }
+.btn-outline{ background: transparent; color: var(--brand-2); border:1px solid var(--brand-2); }
+
+/* ===== Table ===== */
+.table-wrapper{ overflow:auto; border:1px solid var(--line); border-radius: 14px; }
+table{ width:100%; border-collapse: collapse; }
+thead th{ position: sticky; top: 0; background: #101738; }
+th, td{ text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+tbody tr:hover{ background: #0c1433; }
+
+.badge{ display:inline-block; padding:4px 8px; border-radius: 999px; background:#0f1a3d; border:1px solid var(--line); color: var(--muted); font-size: 12px; }
+
+/* ===== Cards ===== */
+.cards{ display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.card{ background:#0c1433; border:1px solid var(--line); border-radius: 14px; padding: 14px; }
+.card .label{ color: var(--muted); font-size: 12px; }
+.card .value{ font-size: 22px; font-weight: 700; }
+
+/* ===== Tabs visibility ===== */
+.tab{ display:none; }
+.tab.active{ display:block; }
+
+/* ===== Footer & Print ===== */
+.app-footer{ padding: 16px; color: var(--muted); text-align:center; }
+
+@media (max-width: 1100px){
+  .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .items{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px){
+  .grid{ grid-template-columns: 1fr; }
+  .items{ grid-template-columns: 1fr; }
+}
+
+/* Printable */
+@media print{
+  body{ background: #fff; color: #000; }
+  header, nav, .app-footer, .tabs, .actions, #dashboard{ display:none !important; }
+  #form.panel{ border:none; box-shadow:none; }
+  .item-group{ border:1px solid #aaa; }
+  .item-row{ border:1px solid #ccc; }
+}
+/* ===== Dashboard de Estoque ===== */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #0c1433;
+  padding: 15px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.card h3 {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.card p {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--ok);
+  margin: 0;
+}
+#filter-date{
+  padding: 0.4rem;
+  border-radius: 10px;
+}
+#filter-date:hover{
+  background-color: rgb(216, 216, 255);
+}
+/* ===== Formulário de Estoque ===== */
+.form-section form,
+#product-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+#product-form input, 
+#product-form button {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  font-size: 1rem;
+  background: #0d1430;
+  color: var(--text);
+}
+#product-form button {
+  background: var(--ok);
+  border: none;
+  color: #0b1020;
+  font-weight: 600;
+  cursor: pointer;
+}
+#product-form button:hover {
+  filter: brightness(1.1);
+}
+
+/* ===== Tabela de Estoque ===== */
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.table-section thead {
+  background: #101738;
+  color: var(--text);
+}
+.table-section th,
+.table-section td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+.table-section tr:hover {
+  background: #0c1433;
+}
+
+/* ===== Botões da Tabela ===== */
+.actions button {
+  margin: 0 4px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+}
+.edit-btn {
+  background: #f39c12;
+  color: #fff;
+}
+.delete-btn {
+  background: #e74c3c;
+  color: #fff;
+}
+.saida-btn {
+  background: #8e44ad;
+  color: #fff;
+}
+
+/* ===== Background dinâmico =====
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 200%; height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.05) 0,
+    rgba(255,255,255,0.05) 2px,
+    transparent 2px,
+    transparent 40px
+  );
+  animation: moveLines 20s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes moveLines {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-200px,-200px); }
+}
+
+main.container, .panel, .board, .tab {
+  position: relative;
+  z-index: 1;
+}*/

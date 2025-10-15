@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mavilom</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="dash/dash.css"/>
+  <link rel="stylesheet" href="dem/dem.css"/>
+</head>
+<body>
+  <header class="app-header">
+    <img src="logo.png" alt="Logo" class="brand-logo"/>
+    <div class="header-text">
+      <h1>OP (operacional)</h1>
+      <p>Registro de envio e controle estoque diário</p>
+    </div>
+  </header>
+  <!--beginning Button-->
+  <nav class="tabs">
+    <!--<button class="tab-btn active" data-target="#dashboard">Dashboard</button>-->
+    <!--<button class="tab-btn" data-target="#demandas">Demandas</button>-->
+    <button class="tab-btn" data-target="#form">Novo Checklist</button>
+    <!--<button class="tab-btn" data-target="#estoque">Estoque</button>-->
+    <!--<button onclick="window.location.href='/loss/index.html'">Sinal</button>-->    
+    <!--<button onclick="window.location.href='/latlong/latlong.html'">Lat-Long</button>-->
+    <!--<button onclick="window.location.href='/Clld/calco.html'">Calculadora</button>-->
+    </nav>
+<!--The end - Botton-->
+<!-- DASHBOARD -->  
+  <main class="container">
+    <section id="dashboard" class="tab active">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>OP Dashboard Checklists</h2>
+          <div class="filter-row">
+            <label for="filter-date">Data:</label>
+            <input type="date" id="filter-date"/>
+            <button id="apply-filter" class="btn">Aplicar Filtro</button>
+            <button id="clear-filter" class="btn btn-secondary">Mostrar Todos</button>
+
+          </div>
+        </div>
+  <!-- The end - DASHBOARD -->  
+  <!-- List checklist for relatori -->   
+  <div id="cards" class="cards"></div>
+
+        <div class="table-wrapper">
+          <table id="checklist-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Empresa</th>
+                <th>CNPJ</th>
+                <th>Cidade</th>
+                <th>Motorista</th>
+                <th>Itens (qtd)</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+     <!--beginning DEMANDS -->
+<section id="demandas" class="tab">
+  <h2>OP Demandas</h2>
+  <div id="novoForm">
+    <input type="text" id="titulo" placeholder="Empresa">
+    <input type="text" id="descricao" placeholder="Motivos">
+    <input type="text" id="responsavel" placeholder="Suporte"> 
+    <input type="date" id="prazo"><!--<input type="text" id="Solicitante" placeholder="Solicitante"> Configurar nos demais campos-->
+    <select id="prioridade">
+      <option value="Alta">Alta</option>
+      <option value="Média" selected>Média</option>
+      <option value="Baixa">Baixa</option>
+    </select>
+    <input type="text" id="tecnico" placeholder="Técnico">
+    <button onclick="criarDemanda()">Adicionar</button>
+    <button onclick="exportarRelatorio()">Exportar Relatório</button>
+  </div>
+  <div class="board">
+    <div class="coluna" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Solicitada</h2>
+    </div>
+    <div class="coluna" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Em andamento</h2>
+    </div>
+    <div class="coluna" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Concluída</h2>
+    </div>
+  </div>
+<!-- Modal -->
+<div id="modal-demanda" class="modal" onclick="fecharModalDemandaClickFora(event)">
+
+  <div class="modal-content">
+    <span class="close" onclick="fecharModal()"></span>
+    <h2 id="modalTitulo"></h2>
+    <p><strong>Descrição:</strong> <span id="modalDescricao"></span></p>
+    <p><strong>Responsável:</strong> <span id="modalResponsavel"></span></p>
+    <p><strong>Prazo:</strong> <span id="modalPrazo"></span></p>
+    <p><strong>Prioridade:</strong> <span id="modalPrioridade"></span></p>
+    <p><strong>Técnico:</strong> <span id="modalTecnico"></span></p>
+    <hr>
+    <h3>Checklist</h3>
+    <div id="checklist"></div>
+    <input type="text" id="novaTarefa" placeholder="Adicionar tarefa">
+    <button onclick="adicionarChecklist()">Adicionar</button>
+    <hr>
+    <h3>Andamento</h3>
+    <textarea id="andamentoTexto" rows="3" style="width:100%;" placeholder="Escreva uma atualização"></textarea>
+    <button onclick="registrarAndamento()">Registrar</button>
+    <div class="timeline" id="andamentoLogs"></div>
+  </div>
+</div>
+</section>
+      <!-- FORMULÁRIO CHECKLIST -->
+    <section id="form" class="tab">
+      <form id="checklist-form" class="panel">
+        <div class="panel-header">
+          <h2>OP Novo Checklist</h2>
+          <div class="actions">
+            <button type="button" id="btn-new" class="btn btn-secondary">Novo</button>
+            <button type="button" id="btn-save" class="btn">Salvar</button>
+            <button type="button" id="btn-pdf" class="btn btn-outline">Gerar PDF</button>
+          </div>
+        </div>
+        <input type="hidden" id="entry-id"/>
+        <fieldset class="grid">
+          <div class="field">
+            <label>Data do Envio</label>
+            <input type="date" id="date"/>
+          </div>
+          <div class="field">
+            <label>Empresa</label>
+            <input type="text" id="company" placeholder="Nome da empresa" required/>
+          </div>
+          <div class="field">
+            <label>CNPJ</label>
+            <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required/>
+          </div>
+          <div class="field">
+            <label>Cidade da Instalação</label>
+            <input type="text" id="city" placeholder="Cidade/UF" required/>
+          </div>
+          <div class="field">
+            <label>Técnico</label>
+            <select id="driver" required>
+              <option value="">Selecione...</option>
+              <option>VALDEMIR CUIABA-MT</option>
+              <option>MATHEUS CUIABA-MT</option>
+              <option>TIAGO SORRISO-MT</option>
+              <option>SOUZA RONDONÓPOLIS-MT</option>
+              <option>YURI SINOP</option>
+              <option>JOSÉ GOMES PRIMAVERA-MT</option>
+              <option>GUILHERMO CAMPINAS-SP</option>
+              </select>
+            </div>
+          </fieldset>
+        <h3 class="section-title">Itens do Checklist</h3>
+      <div id="items-container" class="items"></div>
+    </form>
+  </section>
+   <!-- ESTOQUE -->
+    <section id="estoque" class="tab">
+      <div class="panel">
+        <h2>OP Controle de Estoque</h2>
+        <!-- Dashboard -->
+        <div class="dashboard">
+          <div class="card"><h3>Total de Produtos</h3><p id="total-produtos">0</p></div>
+          <div class="card"><h3>Itens em Estoque</h3><p id="total-estoque">0</p></div>
+          <div class="card"><h3>Saídas Realizadas</h3><p id="total-saidas">0</p></div>
+          <div class="card"><h3>Valor Total (R$)</h3><p id="valor-total">0,00</p></div>
+        </div>
+        <button id="reset-saidas" class="btn btn-secondary">Zerar Saídas</button>
+         <!-- GRÁFICOS DE ESTOQUE -->
+         <div class="charts">
+          <div class="chart-container">
+            <h3>Estoque por Produto</h3>
+            <canvas id="estoqueChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3>Produtos por Categoria</h3>
+            <canvas id="categoriaChart"></canvas>
+          </div>
+        </div>
+        <!-- Formulário -->
+        <h3>Cadastrar Produto</h3>
+        <form id="product-form">
+          <input type="text" id="nome" placeholder="Nome do produto" required>
+          <input type="text" id="categoria" placeholder="Categoria" required>
+          <input type="number" id="quantidade" placeholder="Quantidade" min="1" required>
+          <input type="number" id="preco" placeholder="Preço (R$)" step="0.01" min="0" required>
+          <button type="submit">Adicionar</button>
+        </form>
+        <!-- Tabela -->
+        <h3>Produtos em Estoque</h3>
+        <div class="table-section">
+          <table id="tabela-produtos">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+                <th>Preço (R$)</th>
+                <th>Total (R$)</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+  </section>
+  <!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <footer class="app-footer">
+    <small> © 2025 Cirador Mavilom versão 1.0 </small>
+  </footer>
+  <template id="item-row-tpl">
+    <div class="item-row">
+      <label class="check">
+        <input type="checkbox" class="item-check"/>
+        <span class="item-name"></span>
+      </label>
+      <input type="number" min="0" class="item-qty" placeholder="Qtd" disabled/>
+    </div>
+  </template>
+  <script src="script.js"></script>
+  <script src="dash/dash.js"></script>
+  <!--<script src="stoq/script.js"></script>-->
+  <script src="dem/dem.js"></script>
+</body>
+</html>
+
