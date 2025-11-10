@@ -30,6 +30,7 @@ function saveAll(list){
 
 // === Catalog of items (Checklist) ===
 const CATALOG = [
+  { group: "Camera Hikvision ", items: ["G40", "G40 PRO"] },
   { group: "Rastreador Multiportal", items: ["RST MINI", "RST HÍBRIDO"] },
   { group: "Rastreador SUNTECH", items: ["ST4305", "ST340UR", "ST310UC2"] },
   { group: "Rastreador QUECKLINT", items: ["GV55", "GV75"] },
@@ -393,6 +394,7 @@ function carregarPagina() {
       document.body.innerHTML = html;
     });
 }
+
 
 
 
