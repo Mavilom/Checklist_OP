@@ -33,7 +33,7 @@ const CATALOG = [
   { group: "Rastreador Multiportal", items: ["RST MINI", "RST HÍBRIDO"] },
   { group: "Rastreador SUNTECH", items: ["ST4305", "ST340UR", "ST310UC2"] },
   { group: "Rastreador QUECKLINT", items: ["GV55", "GV75"] },
-  { group: "PERIFÉRICOS", items: ["RFID", "ICARD PARA RFID", "IBUTTON", "TAG PARA IBUTTON", "ST20U SUTECH", "BUZZER", "RELÉ BLOQUEIO 12V 5P", "RELÉ BLOQUEIO 24V 5P", "SW101", "GIROFLEX"] },
+  { group: "PERIFÉRICOS", items: ["RFID", "ICARD PARA RFID", "IBUTTON", "TAG PARA IBUTTON", "ST20U SUTECH", "BUZZER", "RELÉ BLOQUEIO 12V 5P", "RELÉ BLOQUEIO 24V 5P", "SW101", "GIROFLEX", "PLUGS CAN"] },
   { group: "ADESIVOS", items: ["ADESIVOS"] }
 ];
 
@@ -393,5 +393,6 @@ function carregarPagina() {
       document.body.innerHTML = html;
     });
 }
+
 
 
